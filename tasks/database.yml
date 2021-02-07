@@ -1,0 +1,21 @@
+---
+- name: Create Redmine database
+  mysql_db:
+    name: "{{ teampasswordmanager_db_name }}"
+    login_host: "{{ teampasswordmanager_db_host }}"
+    login_user: "{{ teampasswordmanager_db_admin_user }}"
+    login_password: "{{ teampasswordmanager_db_admin_password }}"
+    collation: utf8_general_ci
+    encoding: utf8
+    state: present
+
+- name: Create Redmine database user
+  mysql_user:
+    login_host: "{{ teampasswordmanager_db_host }}"
+    login_user: "{{ teampasswordmanager_db_admin_user }}"
+    login_password: "{{ teampasswordmanager_db_admin_password }}"
+    name: "{{ teampasswordmanager_db_user }}"
+    password: "{{ teampasswordmanager_db_password }}"
+    host: "{{ teampasswordmanager_db_user_host }}"
+    priv: "{{ teampasswordmanager_db_name }}.*:{{ teampasswordmanager_db_user_privileges }}"
+    state: present

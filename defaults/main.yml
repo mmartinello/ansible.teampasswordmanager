@@ -1,2 +1,26 @@
 ---
-# defaults file for mmartinello.teampasswordmanager
+# Database settings
+teampasswordmanager_db_host: localhost
+teampasswordmanager_db_port: 3306
+teampasswordmanager_db_user: teampasswordmanager
+teampasswordmanager_db_name: teampasswordmanager
+teampasswordmanager_db_password: teampasswordmanager
+teampasswordmanager_db_user_privileges: 'SELECT,INSERT,UPDATE,DELETE,CREATE,ALTER,DROP,CREATE VIEW,INDEX,EXECUTE'
+
+# Docker image settings
+teampasswordmanager_image_name: teampasswordmanager/teampasswordmanager
+teampasswordmanager_image_tag: latest
+teampasswordmanager_image_update: false
+
+# Docker container settings
+teampasswordmanager_container_name: teampasswordmanager
+teampasswordmanager_host_port: 8080
+teampasswordmanager_container_port: 80
+teampasswordmanager_container_volumes: 
+teampasswordmanager_container_start: true
+
+# Docker volume settings
+teampasswordmanager_volume_name: teampasswordmanager
+
+# Environment file settings
+teampasswordmanager_env_file_path: /etc/teampasswordmanager.env

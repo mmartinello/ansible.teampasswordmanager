@@ -1,0 +1,42 @@
+---
+- name: Pull the Docker image from the Registry
+  docker_image:
+    name: "{{ teampasswordmanager_image_name }}"
+    tag: "{{ teampasswordmanager_image_tag }}"
+    source: pull
+    force_source: yes
+  when: teampasswordmanager_image_update == true
+
+- name: Check if the container already exists
+  docker_container_info:
+    name: "{{ teampasswordmanager_container_name }}"
+  register: container_status
+
+- name: Ensure the container is stopped if exists
+  docker_container:
+    name: "{{ iteampasswordmanager_container_name }}"
+    state: stopped
+  when: container_status.exists
+
+- name: Create a volume for the Docker container
+  docker_volume:
+    volume_name: "{{ teampasswordmanager_volume_name }}"
+    state: present
+
+- name: Create a container for Team Password Manager
+  docker_container:
+    name: "{{ teampasswordmanager_container_name }}"
+    image: "{{ teampasswordmanager_image_name }}"
+    recreate: yes
+    state: present
+    published_ports:
+      - "{{ teampasswordmanager_host_port }}:{{ teampasswordmanager_container_port | default(8080) }}"
+    volumes: "{{ teampasswordmanager_container_volumes }}"
+    restart_policy: "always"
+  register: container_result
+
+- name: Start the container
+  docker_container:
+    name: "{{ teampasswordmanager_container_name }}"
+    state: started
+  when: teampasswordmanager_container_start == true

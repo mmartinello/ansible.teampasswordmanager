@@ -1,2 +1,4 @@
 ---
-# tasks file for mmartinello.teampasswordmanager
+- import_tasks: database.yml
+
+- import_tasks: deploy.yml
