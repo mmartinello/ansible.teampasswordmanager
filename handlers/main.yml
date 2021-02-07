@@ -1,2 +1,7 @@
 ---
-# handlers file for mmartinello.teampasswordmanager
+- name: Restart Team Password Manager
+  docker_container:
+    name: "{{ teampasswordmanager_container_name }}"
+    state: started
+    restart: yes
+  when: teampasswordmanager_container_start == true

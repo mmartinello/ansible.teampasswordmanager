@@ -14,7 +14,7 @@
 
 - name: Ensure the container is stopped if exists
   docker_container:
-    name: "{{ iteampasswordmanager_container_name }}"
+    name: "{{ teampasswordmanager_container_name }}"
     state: stopped
   when: container_status.exists
 
@@ -22,6 +22,7 @@
   docker_volume:
     volume_name: "{{ teampasswordmanager_volume_name }}"
     state: present
+  notify: Restart Team Password Manager
 
 - name: Create a container for Team Password Manager
   docker_container:
@@ -32,11 +33,7 @@
     published_ports:
       - "{{ teampasswordmanager_host_port }}:{{ teampasswordmanager_container_port | default(8080) }}"
     volumes: "{{ teampasswordmanager_container_volumes }}"
-    restart_policy: "always"
+    restart_policy: "{{ teampasswordmanager_restart_policy }}"
+    env: "{{ teampasswordmanager_envs }}"
+  notify: Restart Team Password Manager
   register: container_result
-
-- name: Start the container
-  docker_container:
-    name: "{{ teampasswordmanager_container_name }}"
-    state: started
-  when: teampasswordmanager_container_start == true

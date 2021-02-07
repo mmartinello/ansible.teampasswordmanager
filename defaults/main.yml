@@ -5,7 +5,16 @@ teampasswordmanager_db_port: 3306
 teampasswordmanager_db_user: teampasswordmanager
 teampasswordmanager_db_name: teampasswordmanager
 teampasswordmanager_db_password: teampasswordmanager
+teampasswordmanager_db_user_host: '%'
 teampasswordmanager_db_user_privileges: 'SELECT,INSERT,UPDATE,DELETE,CREATE,ALTER,DROP,CREATE VIEW,INDEX,EXECUTE'
+teampasswordmanager_db_config_encrypt_enable: false
+
+# Timezone
+teampasswordmanager_server_timezone: Etc/UTC
+teampasswordmanager_php_timezone: Etc/UTC
+
+# Enable upgrade
+teampasswordmanager_upgrade_enable: false
 
 # Docker image settings
 teampasswordmanager_image_name: teampasswordmanager/teampasswordmanager
@@ -18,6 +27,7 @@ teampasswordmanager_host_port: 8080
 teampasswordmanager_container_port: 80
 teampasswordmanager_container_volumes: 
 teampasswordmanager_container_start: true
+teampasswordmanager_restart_policy: always
 
 # Docker volume settings
 teampasswordmanager_volume_name: teampasswordmanager
