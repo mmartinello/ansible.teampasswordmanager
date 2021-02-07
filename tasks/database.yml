@@ -1,8 +1,4 @@
 ---
-- name: Debug
-  debug:
-    msg: "name={{ teampasswordmanager_db_name }}, host={{ teampasswordmanager_db_host }}, user={{ teampasswordmanager_db_admin_user }}, password={{ teampasswordmanager_db_admin_password }}"
-
 - name: Create database
   mysql_db:
     name: "{{ teampasswordmanager_db_name }}"

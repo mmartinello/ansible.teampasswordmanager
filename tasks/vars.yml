@@ -1,4 +1,13 @@
 ---
+- name: Set Builtin variables
+  set_fact:
+    teampasswordmanager_db_empty: true
+    teampasswordmanager_url: "http://{{ ansible_host }}:{{ teampasswordmanager_host_port }}"
+
+- name: Set MySQL Command
+  set_fact:
+    _mysql_cmd: 'mysql -h {{ teampasswordmanager_db_host }} -u {{ teampasswordmanager_db_user }} -p{{ teampasswordmanager_db_password }}'
+
 - name: Enable Database Encryption
   set_fact:
     teampasswordmanager_db_config_encrypt_enable: 1
@@ -26,3 +35,12 @@
       TPM_CONFIG_PASSWORD: "{{ teampasswordmanager_db_password | default('teampasswordmanager') }}"
       TPM_CONFIG_DATABASE: "{{ teampasswordmanager_db_name | default('teampasswordmanager') }}"
       TPM_UPGRADE: "{{ teampasswordmanager_upgrade | default ('0') }}"
+
+- name: Get tables in Team Password Manager Database
+  shell: '{{ _mysql_cmd }} -Nse "SHOW TABLES;" {{ teampasswordmanager_db_name }}'
+  register: teampasswordmanager_db_tables
+
+- name: Check if database contain tables
+  set_fact:
+    teampasswordmanager_db_empty: false
+  when: teampasswordmanager_db_tables.stdout_lines != []

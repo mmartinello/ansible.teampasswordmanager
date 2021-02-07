@@ -1,0 +1,10 @@
+---
+- name: Team Password Manager installed!
+  debug:
+    msg: "Please finalize the installation at: {{ teampasswordmanager_url }}/index.php/install"
+  when: teampasswordmanager_db_empty
+
+- name: Team Password Manager upgraded!
+  debug:
+    msg: "Please finalize the installation at: {{ teampasswordmanager_url }}/index.php/upgrade"
+  when: teampasswordmanager_upgrade_enable
