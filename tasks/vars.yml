@@ -1,0 +1,46 @@
+---
+- name: Set Builtin variables
+  set_fact:
+    teampasswordmanager_db_empty: true
+    teampasswordmanager_url: "http://{{ ansible_host }}:{{ teampasswordmanager_host_port }}"
+
+- name: Set MySQL Command
+  set_fact:
+    _mysql_cmd: 'mysql -h {{ teampasswordmanager_db_host }} -u {{ teampasswordmanager_db_user }} -p{{ teampasswordmanager_db_password }}'
+
+- name: Enable Database Encryption
+  set_fact:
+    teampasswordmanager_db_config_encrypt_enable: 1
+  when: teampasswordmanager_db_config_encrypt_enable
+
+- name: Enable Team Password Manager Upgrade
+  set_fact:
+    teampasswordmanager_upgrade: 1
+  when: teampasswordmanager_upgrade_enable
+
+- name: Set Container Volumes
+  set_fact:
+    teampasswordmanager_container_volumes:
+      - "{{ teampasswordmanager_volume_name }}:/var/www/html"
+
+- name: Set Environment variables
+  set_fact:
+    teampasswordmanager_envs:
+      TPM_SERVER_TIMEZONE: "{{ teampasswordmanager_server_timezone | default('Etc/UTC') }}"
+      TPM_PHP_TIMEZONE: "{{ teampasswordmanager_php_timezone | default(teampasswordmanager_server_timezone) }}"
+      TPM_ENCRYPT_DB_CONFIG: "{{ teampasswordmanager_encrypt_db_config | default('0') }}"
+      TPM_CONFIG_HOSTNAME: "{{ teampasswordmanager_db_host | default('localhost') }}"
+      TPM_CONFIG_PORT: "{{ teampasswordmanager_db_port | default('3306') }}"
+      TPM_CONFIG_USERNAME: "{{ teampasswordmanager_db_user | default('teampasswordmanager') }}"
+      TPM_CONFIG_PASSWORD: "{{ teampasswordmanager_db_password | default('teampasswordmanager') }}"
+      TPM_CONFIG_DATABASE: "{{ teampasswordmanager_db_name | default('teampasswordmanager') }}"
+      TPM_UPGRADE: "{{ teampasswordmanager_upgrade | default ('0') }}"
+
+- name: Get tables in Team Password Manager Database
+  shell: '{{ _mysql_cmd }} -Nse "SHOW TABLES;" {{ teampasswordmanager_db_name }}'
+  register: teampasswordmanager_db_tables
+
+- name: Check if database contain tables
+  set_fact:
+    teampasswordmanager_db_empty: false
+  when: teampasswordmanager_db_tables.stdout_lines != []

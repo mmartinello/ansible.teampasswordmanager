@@ -1,4 +1,8 @@
 ---
+- import_tasks: vars.yml
+
 - import_tasks: database.yml
 
 - import_tasks: deploy.yml
+
+- import_tasks: finalize.yml

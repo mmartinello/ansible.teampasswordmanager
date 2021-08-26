@@ -1,5 +1,5 @@
 ---
-- name: Create Redmine database
+- name: Create database
   mysql_db:
     name: "{{ teampasswordmanager_db_name }}"
     login_host: "{{ teampasswordmanager_db_host }}"
@@ -9,7 +9,7 @@
     encoding: utf8
     state: present
 
-- name: Create Redmine database user
+- name: Create database user
   mysql_user:
     login_host: "{{ teampasswordmanager_db_host }}"
     login_user: "{{ teampasswordmanager_db_admin_user }}"
