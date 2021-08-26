@@ -24,3 +24,6 @@ teampasswordmanager_volume_name: teampasswordmanager
 
 # Environment file settings
 teampasswordmanager_env_file_path: /etc/teampasswordmanager.env
+
+# Upgrade Team Password Manager
+teampasswordmanager_upgrade: false
